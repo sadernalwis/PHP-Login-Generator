@@ -17,9 +17,10 @@ screen () {
     tput smcup ## Saves the screen contents.
     clear ## Clears the screen.
     tree $PHP_SCRIPTS_PATH
-    printf "Enter `y` to confirm."$'\n'
+    echo "Enter \`y\` to confirm."$'\n'
 }
 cd $PHP_ROOT
+sudo mkdir -pv $USER /var/www/$DOMAIN/
 sudo chown -Rv $USER /var/www/$DOMAIN/
 read -p "check $PHP_SCRIPTS_PATH ownership!"$'\n' confirmation   </dev/tty
 COMMANDS=(
