@@ -22,8 +22,12 @@
 └── user_verification.php
 ```
 
-#### To build & configure a PHP site Login system run the following command at the root of the project repsitory and follow instructions.
+#### To build & configure a PHP site Login system run the following commands and follow instructions.
 ```
+cd ~
+git clone https://github.com/sadernalwis/PHP-Login-Generator.git
+cd PHP-Login-Generator
+
 ./BUILD.sh
 ```
 #### test with the browser:
