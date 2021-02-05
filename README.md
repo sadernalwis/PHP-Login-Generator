@@ -5,23 +5,21 @@
 <br></br>
 ### Base Template Structure
 ```
-\-- php-user-authentication
-  |-- config
-      |--- db.php
-  |-- controllers
-      |--- login.php
-      |--- register.php
-      |--- user_activation.php
-  |-- css
-      |--- style.css
-  |-- lib
-      |--- 3rd party plugins
-  |-- dashboard.php
-  |-- header.php
-  |-- index.php
-  |-- logout.php
-  |-- signup.php
-  |-- user_verification.php
+/var/www/domain-name-test.org/
+├── config
+│   └── db.php
+├── controllers
+│   ├── index.php
+│   ├── login.php
+│   ├── register.php
+│   └── user_activation.php
+├── css
+│   └── style.css
+├── dashboard.php
+├── index.php
+├── logout.php
+├── signup.php
+└── user_verification.php
 ```
 
 #### To build & configure a PHP site Login system run the following command at the root of the project repsitory and follow instructions.
