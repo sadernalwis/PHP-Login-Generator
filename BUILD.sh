@@ -16,6 +16,7 @@ screen () {
     trap "tput rmcup; exit"  SIGHUP SIGINT SIGTERM ## Restores the screen when the program exits.
     tput smcup ## Saves the screen contents.
     clear ## Clears the screen.
+    tree $PHP_SCRIPTS_PATH
     printf "Enter `y` to confirm."$'\n'
 }
 cd $PHP_ROOT
