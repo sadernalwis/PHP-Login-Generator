@@ -644,7 +644,7 @@ cat > $PHP_SCRIPTS_PATH/$command <<-EOF
 </head>
 <body>
     <!-- Header -->
-    <?php include('../php-user-authentication/header.php'); ?>
+    <?php include('../header.php'); ?>
     <!-- Login script -->
     <?php include('./controllers/login.php'); ?>
     <!-- Login form -->
