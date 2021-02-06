@@ -42,6 +42,8 @@ curl -I http://yourIP_or_domain/index.php
 <img align="center" src="docs/screenshot.png" width="600px"/>
 
 #### TODO
-##### SSL
+* SSL
+* Multiple Templates
+* MIME type configurations
 
  
