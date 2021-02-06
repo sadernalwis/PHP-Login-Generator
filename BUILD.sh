@@ -16,7 +16,7 @@ screen () {
     trap "tput rmcup; exit"  SIGHUP SIGINT SIGTERM ## Restores the screen when the program exits.
     tput smcup ## Saves the screen contents.
     clear ## Clears the screen.
-    tree $PHP_SCRIPTS_PATH
+    tree -C $PHP_SCRIPTS_PATH
     echo "Enter \`y\` to confirm."$'\n'
 }
 cd $PHP_ROOT
@@ -29,6 +29,7 @@ COMMANDS=(
     "Nginx"
     "MySQL"
     "PHP"
+    "server"
     "database"
     "config/db.php"
     "index.php"
@@ -84,6 +85,10 @@ for command in "${COMMANDS[@]}"; do
         read -p "install $command?"$'\n' confirmation   </dev/tty
         if [[ "$confirmation" == "y" ]]; then
             sudo apt install php-fpm php-mysql
+        fi
+    elif [[ $command == "server" ]];then
+        read -p "setup $command?"$'\n' confirmation   </dev/tty
+        if [[ "$confirmation" == "y" ]]; then
             sudo mkdir /var/www/$DOMAIN
             sudo chown -R $USER:$USER /var/www/$DOMAIN
             sudo chown -R $USER:$USER /etc/nginx/sites-available/
@@ -93,21 +98,17 @@ server {
     server_name ${IP_ADDRESS} ${DOMAIN} www.${DOMAIN};
     root /var/www/${DOMAIN};
     index index.html index.htm index.php;
-    
     location / {
       try_files $uri $uri/ @backend;
-    }
-
-    location /css/ {
-    }
-
-
-    location @backend {
-      proxy_pass http://${IP_ADDRESS};
     }
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+    }
+    location /css/ {
+    }
+    location @backend {
+      proxy_pass http://${IP_ADDRESS};
     }
     location ~ /\.ht {
         deny all;
@@ -117,25 +118,7 @@ EOF
             sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
             sudo nginx -t
             sudo systemctl reload nginx
-cat > /var/www/$DOMAIN/index.html <<-EOF
-<html>
-    <head>
-        <title>${DOMAIN} website</title></head>
-    <body>
-        <h1>Hello World!</h1>
-        <p>This is the landing page of <strong>${DOMAIN}</strong>.</p></body>
-</html>
-EOF
-            printf "try http://${DOMAIN}"$'\n'
-cat > /var/www/$DOMAIN/info.php <<-EOF
-<?php
-    // Show all information, defaults to INFO_ALL
-    phpinfo();
-    // Show just the module information. identical phpinfo(8)
-    phpinfo(INFO_MODULES);
-?>
-EOF
-            printf "try http://${DOMAIN}/info.php"$'\n'
+            read -p "try http://${DOMAIN}"$'\n' confirmation   </dev/tty
         fi
     elif [[ $command == "database" ]];then
         read -p "initialize users?"$'\n' confirmation   </dev/tty
@@ -357,7 +340,7 @@ cat > $PHP_SCRIPTS_PATH/$command <<-EOF
                     // Send verification email
                     if(\$sqlQuery) {
                         \$msg = 'Click on the activation link to verify your email. <br><br>
-                          <a href="http://${IP_ADDRESS}:80/php-user-authentication/user_verificaiton.php?token='.\$token.'"> Click here to verify email</a>
+                          <a href="http://${IP_ADDRESS}:80/user_verificaiton.php?token='.\$token.'"> Click here to verify email</a>
                         ';
                         // Create the Transport
                         \$transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
@@ -551,7 +534,7 @@ cat > $PHP_SCRIPTS_PATH/$command <<-EOF
                 <?php echo \$email_verified; ?>
                 <?php echo \$activation_error; ?></div>
             <p class="lead">If user account is verified then click on the following button to login.</p>
-            <a class="btn btn-lg btn-success" href="http://${IP_ADDRESS}:80/php-user-authentication/index.php">Click to Login</a>
+            <a class="btn btn-lg btn-success" href="http://${IP_ADDRESS}:80/index.php">Click to Login</a>
         </div>
     </div>
 </body>
@@ -734,7 +717,7 @@ cat > $PHP_SCRIPTS_PATH/$command <<-EOF
 <?php     
     session_start();
     session_destroy();
-    header("Location: http://${IP_ADDRESS}:80/php-user-authentication/index.php")
+    header("Location: http://${IP_ADDRESS}:80/index.php")
 ;?>
 EOF
         fi
