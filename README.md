@@ -39,8 +39,9 @@ http://yourIP_or_domain/index.php
 curl -I http://yourIP_or_domain/index.php
 ```
 
-<img align="left" src="docs/screenshot.png" width="600px"/>
-
+<img align="center" src="docs/screenshot.png" width="600px"/>
 
 #### TODO
+##### SSL
+
  
